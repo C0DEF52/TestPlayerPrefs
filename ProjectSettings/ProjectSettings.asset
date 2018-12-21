@@ -150,6 +150,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.fiftytwo.TestPlayerPrefs
     Standalone: com.fiftytwo.TestPlayerPrefs
+    iOS: com.fiftytwo.TestPlayerPrefs
   buildNumber: {}
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 16
