@@ -1,4 +1,4 @@
-﻿#if ENABLE_IL2CPP && UNITY_STANDALONE
+﻿#if ENABLE_IL2CPP
 
 using System;
 using System.Collections;
