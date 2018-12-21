@@ -33,6 +33,7 @@ namespace Fiftytwo
         [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
         private static void DisablePlayerPrefs ()
         {
+            Dbg.Log( "DisablePlayerPrefs" );
             PlayerPrefsHooks.InstallHooks();
         }
 #endif

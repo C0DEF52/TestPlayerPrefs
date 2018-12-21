@@ -18,6 +18,10 @@ namespace Fiftytwo
     {
         private void Awake ()
         {
+#if ENABLE_IL2CPP
+            Dbg.Log( "Install hooks from Awake()" );
+            PlayerPrefsHooks.InstallHooks();
+#endif
         }
 
         private void OnDestroy ()

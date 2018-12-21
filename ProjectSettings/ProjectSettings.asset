@@ -522,7 +522,9 @@ PlayerSettings:
   webGLCompressionFormat: 1
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    1: ENABLE_DBG_LOGS;ENABLE_DBG_ASSERTIONS
+    7: ENABLE_DBG_LOGS;ENABLE_DBG_ASSERTIONS
   platformArchitecture: {}
   scriptingBackend:
     Android: 1
