@@ -2,10 +2,12 @@
 
 #ifndef _MSC_VER
 #include <alloca.h>
-#define EXPORTAPI
+#define DEFAULT_CALL
+#define EXPORT_CALL
 #else
 #include <malloc.h>
-#define EXPORTAPI __declspec(dllexport) __stdcall
+#define DEFAULT_CALL __stdcall
+#define EXPORT_CALL __declspec(dllexport) DEFAULT_CALL
 #endif
 
 #include <cstring>
@@ -30,16 +32,16 @@ using namespace il2cpp::vm;
 
 namespace Fiftytwo
 {
-    typedef bool (EXPORTAPI *PlayerPrefs_TrySetIntPfn)(Il2CppChar* key, int32_t value);
-    typedef bool (EXPORTAPI *PlayerPrefs_TrySetFloatPfn)(Il2CppChar* key, float value);
-    typedef bool (EXPORTAPI *PlayerPrefs_TrySetSetStringPfn)(Il2CppChar* key, Il2CppChar* value);
-    typedef int32_t (EXPORTAPI *PlayerPrefs_GetIntPfn)(Il2CppChar* key, int32_t defaultValue);
-    typedef float (EXPORTAPI *PlayerPrefs_GetFloatPfn)(Il2CppChar* key, float defaultValue);
-    typedef Il2CppChar* (EXPORTAPI *PlayerPrefs_GetStringPfn)(Il2CppChar* key, Il2CppChar* defaultValue);
-    typedef bool (EXPORTAPI *PlayerPrefs_HasKeyPfn)(Il2CppChar* key);
-    typedef void (EXPORTAPI *PlayerPrefs_DeleteKeyPfn)(Il2CppChar* key);
-    typedef void (EXPORTAPI *PlayerPrefs_DeleteAllPfn)();
-    typedef void (EXPORTAPI *PlayerPrefs_SavePfn)();
+    typedef bool (*DEFAULT_CALL PlayerPrefs_TrySetIntPfn)(Il2CppChar* key, int32_t value);
+    typedef bool (*DEFAULT_CALL PlayerPrefs_TrySetFloatPfn)(Il2CppChar* key, float value);
+    typedef bool (*DEFAULT_CALL PlayerPrefs_TrySetSetStringPfn)(Il2CppChar* key, Il2CppChar* value);
+    typedef int32_t (*DEFAULT_CALL PlayerPrefs_GetIntPfn)(Il2CppChar* key, int32_t defaultValue);
+    typedef float (*DEFAULT_CALL PlayerPrefs_GetFloatPfn)(Il2CppChar* key, float defaultValue);
+    typedef Il2CppChar* (*DEFAULT_CALL PlayerPrefs_GetStringPfn)(Il2CppChar* key, Il2CppChar* defaultValue);
+    typedef bool (*DEFAULT_CALL PlayerPrefs_HasKeyPfn)(Il2CppChar* key);
+    typedef void (*DEFAULT_CALL PlayerPrefs_DeleteKeyPfn)(Il2CppChar* key);
+    typedef void (*DEFAULT_CALL PlayerPrefs_DeleteAllPfn)();
+    typedef void (*DEFAULT_CALL PlayerPrefs_SavePfn)();
 
 
     typedef struct PlayerPrefs_Callbacks
@@ -65,13 +67,13 @@ namespace Fiftytwo
     {
         return _playerPrefsCallbacks.TrySetInt(StringUtils::GetChars(key), value);
     }
-    
+
     // System.Boolean UnityEngine.PlayerPrefs::TrySetFloat(System.String,System.Single)
     bool PlayerPrefs_TrySetFloat(Il2CppString* key, float value)
     {
         return _playerPrefsCallbacks.TrySetFloat(StringUtils::GetChars(key), value);
     }
-    
+
     // System.Boolean UnityEngine.PlayerPrefs::TrySetSetString(System.String,System.String)
     bool PlayerPrefs_TrySetSetString(Il2CppString* key, Il2CppString* value)
     {
@@ -83,19 +85,19 @@ namespace Fiftytwo
         return _playerPrefsCallbacks.TrySetSetString(StringUtils::GetChars(key),
                                                      StringUtils::GetChars(value));
     }
-    
+
     // System.Int32 UnityEngine.PlayerPrefs::GetInt(System.String,System.Int32)
     int32_t PlayerPrefs_GetInt(Il2CppString* key, int32_t defaultValue)
     {
         return _playerPrefsCallbacks.GetInt(StringUtils::GetChars(key), defaultValue);
     }
-    
+
     // System.Single UnityEngine.PlayerPrefs::GetFloat(System.String,System.Single)
     float PlayerPrefs_GetFloat(Il2CppString* key, float defaultValue)
     {
         return _playerPrefsCallbacks.GetFloat(StringUtils::GetChars(key), defaultValue);
     }
-    
+
     // System.String UnityEngine.PlayerPrefs::GetString(System.String,System.String)
     Il2CppString* PlayerPrefs_GetString(Il2CppString* key, Il2CppString* defaultValue)
     {
@@ -132,7 +134,7 @@ namespace Fiftytwo
 
 using namespace Fiftytwo;
 
-extern "C" void EXPORTAPI Fiftytwo_PlayerPrefs_InstallHooks(PlayerPrefs_Callbacks callbacks)
+extern "C" void EXPORT_CALL Fiftytwo_PlayerPrefs_InstallHooks(PlayerPrefs_Callbacks callbacks)
 {
     static bool isInstalled;
     if (isInstalled)
