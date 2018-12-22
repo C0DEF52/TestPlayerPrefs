@@ -30,19 +30,6 @@ using namespace il2cpp::vm;
 
 namespace Fiftytwo
 {
-    //bool Initialize ()
-    //{
-    //    printf("=== INITIALIZE ===\n");
-    //    typedef void (*PlayerPrefs_Save_ftn) ();
-    //    PlayerPrefs_Save_ftn _il2cpp_icall_func =
-    //        (PlayerPrefs_Save_ftn)InternalCalls::Resolve("UnityEngine.PlayerPrefs::Save()");
-    //    //_il2cpp_icall_func();
-    //    printf("UnityEngine.PlayerPrefs::Save() is set?%d", _il2cpp_icall_func != NULL);
-    //    return true;
-    //}
-    //bool _isInitialized = Initialize();
-
-
     typedef bool (EXPORTAPI *PlayerPrefs_TrySetIntPfn)(Il2CppChar* key, int32_t value);
     typedef bool (EXPORTAPI *PlayerPrefs_TrySetFloatPfn)(Il2CppChar* key, float value);
     typedef bool (EXPORTAPI *PlayerPrefs_TrySetSetStringPfn)(Il2CppChar* key, Il2CppChar* value);
@@ -76,13 +63,15 @@ namespace Fiftytwo
     // System.Boolean UnityEngine.PlayerPrefs::TrySetInt(System.String,System.Int32)
     bool PlayerPrefs_TrySetInt(Il2CppString* key, int32_t value)
     {
-        return true;//_playerPrefs_Callbacks.TrySetInt();
+        return _playerPrefsCallbacks.TrySetInt(StringUtils::GetChars(key), value);
     }
+    
     // System.Boolean UnityEngine.PlayerPrefs::TrySetFloat(System.String,System.Single)
     bool PlayerPrefs_TrySetFloat(Il2CppString* key, float value)
     {
-        return true;
+        return _playerPrefsCallbacks.TrySetFloat(StringUtils::GetChars(key), value);
     }
+    
     // System.Boolean UnityEngine.PlayerPrefs::TrySetSetString(System.String,System.String)
     bool PlayerPrefs_TrySetSetString(Il2CppString* key, Il2CppString* value)
     {
@@ -91,48 +80,52 @@ namespace Fiftytwo
         std::string u8Key = StringUtils::Utf16ToUtf8(u16Key);
         std::string u8Value = StringUtils::Utf16ToUtf8(u16Value);
         printf("%s = %s\n", u8Key.c_str(), u8Value.c_str());*/
-
         return _playerPrefsCallbacks.TrySetSetString(StringUtils::GetChars(key),
                                                      StringUtils::GetChars(value));
     }
+    
     // System.Int32 UnityEngine.PlayerPrefs::GetInt(System.String,System.Int32)
     int32_t PlayerPrefs_GetInt(Il2CppString* key, int32_t defaultValue)
     {
-        //printf("PlayerPrefs_GetInt\n");
-        return defaultValue;
+        return _playerPrefsCallbacks.GetInt(StringUtils::GetChars(key), defaultValue);
     }
+    
     // System.Single UnityEngine.PlayerPrefs::GetFloat(System.String,System.Single)
     float PlayerPrefs_GetFloat(Il2CppString* key, float defaultValue)
     {
-        //printf("PlayerPrefs_GetFloat\n");
-        return defaultValue;
+        return _playerPrefsCallbacks.GetFloat(StringUtils::GetChars(key), defaultValue);
     }
+    
     // System.String UnityEngine.PlayerPrefs::GetString(System.String,System.String)
     Il2CppString* PlayerPrefs_GetString(Il2CppString* key, Il2CppString* defaultValue)
     {
-        //printf("PlayerPrefs_GetString\n");
-        return defaultValue;
+        Il2CppChar* value = _playerPrefsCallbacks.GetString(StringUtils::GetChars(key),
+                                                            StringUtils::GetChars(defaultValue));
+        return String::NewUtf16(value, int32_t(StringUtils::StrLen(value)));
     }
+
     // System.Boolean UnityEngine.PlayerPrefs::HasKey(System.String)
     bool PlayerPrefs_HasKey(Il2CppString* key)
     {
-        //printf("PlayerPrefs_HasKey\n");
-        return false;
+        return _playerPrefsCallbacks.HasKey(StringUtils::GetChars(key));
     }
+
     // System.Void UnityEngine.PlayerPrefs::DeleteKey(System.String)
     void PlayerPrefs_DeleteKey(Il2CppString* key)
     {
-        //printf("PlayerPrefs_DeleteKey\n");
+        _playerPrefsCallbacks.DeleteKey(StringUtils::GetChars(key));
     }
+
     // System.Void UnityEngine.PlayerPrefs::DeleteAll()
     void PlayerPrefs_DeleteAll()
     {
-        //printf("PlayerPrefs_DeleteAll\n");
+        _playerPrefsCallbacks.DeleteAll();
     }
+
     // System.Void UnityEngine.PlayerPrefs::Save()
     void PlayerPrefs_Save()
     {
-        //printf("PlayerPrefs_Save\n");
+        _playerPrefsCallbacks.Save();
     }
 }
 
