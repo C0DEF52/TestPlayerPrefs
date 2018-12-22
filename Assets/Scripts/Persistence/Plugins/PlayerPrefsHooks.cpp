@@ -255,7 +255,7 @@ namespace Fiftytwo
 
 using namespace Fiftytwo;
 
-extern "C" void EXPORT_CALL Fiftytwo_PlayerPrefs_InstallHooks(PlayerPrefs_Callbacks callbacks)
+extern "C" void EXPORT_CALL Fiftytwo_PlayerPrefs_SetCallbacks(PlayerPrefs_Callbacks callbacks)
 {
     _playerPrefsCallbacks = callbacks;
 }

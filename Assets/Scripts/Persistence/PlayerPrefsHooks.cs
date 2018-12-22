@@ -1,4 +1,4 @@
-﻿#if true //ENABLE_IL2CPP
+﻿#if ENABLE_IL2CPP
 
 using System;
 using System.Collections;
@@ -64,13 +64,13 @@ namespace Fiftytwo
 
         private static readonly Dictionary<string, object> _storage = new Dictionary<string, object>();
 
-        public static void InstallHooks ()
+        public static void SetCallbacks ()
         {
-            Fiftytwo_PlayerPrefs_InstallHooks( _callbacks );
+            Fiftytwo_PlayerPrefs_SetCallbacks( _callbacks );
         }
 
         [DllImport("__Internal")]
-        private static extern void Fiftytwo_PlayerPrefs_InstallHooks( Callbacks callbacks );
+        private static extern void Fiftytwo_PlayerPrefs_SetCallbacks( Callbacks callbacks );
 
         [AOT.MonoPInvokeCallback( typeof( TrySetIntDelegate ) )]
         private static bool OnTrySetInt(string key, int value)

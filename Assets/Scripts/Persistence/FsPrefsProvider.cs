@@ -29,13 +29,12 @@ namespace Fiftytwo
             return new Dictionary<string, object>();
         }
 
-#if true //ENABLE_IL2CPP
         [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
         private static void DisablePlayerPrefs ()
         {
-            Dbg.Log( "DisablePlayerPrefs" );
-            PlayerPrefsHooks.InstallHooks();
-        }
+#if ENABLE_IL2CPP
+            PlayerPrefsHooks.SetCallbacks();
 #endif
+        }
     }
 }
