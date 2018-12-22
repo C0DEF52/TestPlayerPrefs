@@ -226,7 +226,7 @@ PlayerSettings:
   metalEditorSupport: 1
   metalAPIValidation: 1
   iOSRenderExtraFrameOnPause: 0
-  appleDeveloperTeamID: 
+  appleDeveloperTeamID: N92B9UHVF4
   iOSManualSigningProvisioningProfileID: 
   tvOSManualSigningProvisioningProfileID: 
   iOSManualSigningProvisioningProfileType: 0
@@ -525,6 +525,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   scriptingDefineSymbols:
     1: ENABLE_DBG_LOGS;ENABLE_DBG_ASSERTIONS
+    4: ENABLE_DBG_LOGS;ENABLE_DBG_ASSERTIONS
     7: ENABLE_DBG_LOGS;ENABLE_DBG_ASSERTIONS
   platformArchitecture: {}
   scriptingBackend:

@@ -15,6 +15,9 @@
 #include <limits>
 #include <assert.h>
 #include <stdint.h>
+#include <locale>
+#include <codecvt>
+#include <iostream>
 
 #include "il2cpp-class-internals.h"
 #include "codegen/il2cpp-codegen.h"
@@ -178,6 +181,21 @@ extern "C" void EXPORTAPI InstallHooks()
                                    (Il2CppMethodPointer)PlayerPrefs_DeleteAll);
     il2cpp::vm::InternalCalls::Add("UnityEngine.PlayerPrefs::Save()",
                                    (Il2CppMethodPointer)PlayerPrefs_Save);
+}
+
+
+extern "C" char* EXPORTAPI ProcessString(char *str)
+{
+    char16_t *str_good = (char16_t *)str;
+    size_t len = std::char_traits<char16_t>::length(str_good);
+    
+    std::wstring_convert< std::codecvt_utf8_utf16<char16_t>, char16_t > convert;
+    
+    std::u16string str16 = str_good;
+    
+    std::string utf8Str = convert.to_bytes(str16);
+    printf("str[%zu]=%s\n", utf8Str.size(), utf8Str.c_str());
+    return nullptr;//strdup(str);
 }
 
 

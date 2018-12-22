@@ -29,7 +29,7 @@ namespace Fiftytwo
             return new Dictionary<string, object>();
         }
 
-#if ENABLE_IL2CPP
+#if true //ENABLE_IL2CPP
         [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
         private static void DisablePlayerPrefs ()
         {
