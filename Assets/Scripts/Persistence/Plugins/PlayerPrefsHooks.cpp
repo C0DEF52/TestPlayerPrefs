@@ -24,191 +24,148 @@
 #include "il2cpp-object-internals.h"
 
 
-#ifndef STRING_T_H
-#define STRING_T_H
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Winvalid-offsetof"
-#pragma clang diagnostic ignored "-Wunused-variable"
-#endif
-
-// System.String
-struct  String_t  : public RuntimeObject
-{
-public:
-	// System.Int32 System.String::m_stringLength
-	int32_t ___m_stringLength_0;
-	// System.Char System.String::m_firstChar
-	Il2CppChar ___m_firstChar_1;
-
-public:
-	inline static int32_t get_offset_of_m_stringLength_0() { return static_cast<int32_t>(offsetof(String_t, ___m_stringLength_0)); }
-	inline int32_t get_m_stringLength_0() const { return ___m_stringLength_0; }
-	inline int32_t* get_address_of_m_stringLength_0() { return &___m_stringLength_0; }
-	inline void set_m_stringLength_0(int32_t value)
-	{
-		___m_stringLength_0 = value;
-	}
-
-	inline static int32_t get_offset_of_m_firstChar_1() { return static_cast<int32_t>(offsetof(String_t, ___m_firstChar_1)); }
-	inline Il2CppChar get_m_firstChar_1() const { return ___m_firstChar_1; }
-	inline Il2CppChar* get_address_of_m_firstChar_1() { return &___m_firstChar_1; }
-	inline void set_m_firstChar_1(Il2CppChar value)
-	{
-		___m_firstChar_1 = value;
-	}
-};
-
-struct String_t_StaticFields
-{
-public:
-	// System.String System.String::Empty
-	String_t* ___Empty_5;
-
-public:
-	inline static int32_t get_offset_of_Empty_5() { return static_cast<int32_t>(offsetof(String_t_StaticFields, ___Empty_5)); }
-	inline String_t* get_Empty_5() const { return ___Empty_5; }
-	inline String_t** get_address_of_Empty_5() { return &___Empty_5; }
-	inline void set_Empty_5(String_t* value)
-	{
-		___Empty_5 = value;
-		Il2CppCodeGenWriteBarrier((&___Empty_5), value);
-	}
-};
-
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
-#endif // STRING_T_H
+using namespace il2cpp::utils;
+using namespace il2cpp::vm;
 
 
-//bool Initialize ()
-//{
-//    printf("=== INITIALIZE ===\n");
-//    typedef void (*PlayerPrefs_Save_ftn) ();
-//    PlayerPrefs_Save_ftn _il2cpp_icall_func =
-//        (PlayerPrefs_Save_ftn)il2cpp::vm::InternalCalls::Resolve("UnityEngine.PlayerPrefs::Save()");
-//    //_il2cpp_icall_func();
-//    printf("UnityEngine.PlayerPrefs::Save() is set?%d", _il2cpp_icall_func != NULL);
-//    return true;
-//}
-//bool _isInitialized = Initialize();
+namespace Fiftytwo
+{
+    //bool Initialize ()
+    //{
+    //    printf("=== INITIALIZE ===\n");
+    //    typedef void (*PlayerPrefs_Save_ftn) ();
+    //    PlayerPrefs_Save_ftn _il2cpp_icall_func =
+    //        (PlayerPrefs_Save_ftn)InternalCalls::Resolve("UnityEngine.PlayerPrefs::Save()");
+    //    //_il2cpp_icall_func();
+    //    printf("UnityEngine.PlayerPrefs::Save() is set?%d", _il2cpp_icall_func != NULL);
+    //    return true;
+    //}
+    //bool _isInitialized = Initialize();
 
 
-// System.Boolean UnityEngine.PlayerPrefs::TrySetInt(System.String,System.Int32)
-bool PlayerPrefs_TrySetInt(String_t* key, int32_t value)
-{
-    //printf("PlayerPrefs_TrySetInt\n");
-    return true;
-}
-// System.Boolean UnityEngine.PlayerPrefs::TrySetFloat(System.String,System.Single)
-bool PlayerPrefs_TrySetFloat(String_t* key, float value)
-{
-    //printf("PlayerPrefs_TrySetFloat\n");
-    return true;
-}
-// System.Boolean UnityEngine.PlayerPrefs::TrySetSetString(System.String,System.String)
-bool PlayerPrefs_TrySetSetString(String_t* key, String_t* value)
-{
-    //printf("PlayerPrefs_TrySetSetString\n");
-    return true;
-}
-// System.Int32 UnityEngine.PlayerPrefs::GetInt(System.String,System.Int32)
-int32_t PlayerPrefs_GetInt(String_t* key, int32_t defaultValue)
-{
-    //printf("PlayerPrefs_GetInt\n");
-    return defaultValue;
-}
-// System.Single UnityEngine.PlayerPrefs::GetFloat(System.String,System.Single)
-float PlayerPrefs_GetFloat(String_t* key, float defaultValue)
-{
-    //printf("PlayerPrefs_GetFloat\n");
-    return defaultValue;
-}
-// System.String UnityEngine.PlayerPrefs::GetString(System.String,System.String)
-String_t* PlayerPrefs_GetString(String_t* key, String_t* defaultValue)
-{
-    //printf("PlayerPrefs_GetString\n");
-    return defaultValue;
-}
-// System.Boolean UnityEngine.PlayerPrefs::HasKey(System.String)
-bool PlayerPrefs_HasKey(String_t* key)
-{
-    //printf("PlayerPrefs_HasKey\n");
-    return false;
-}
-// System.Void UnityEngine.PlayerPrefs::DeleteKey(System.String)
-void PlayerPrefs_DeleteKey(String_t* key)
-{
-    //printf("PlayerPrefs_DeleteKey\n");
-}
-// System.Void UnityEngine.PlayerPrefs::DeleteAll()
-void PlayerPrefs_DeleteAll()
-{
-    //printf("PlayerPrefs_DeleteAll\n");
-}
-// System.Void UnityEngine.PlayerPrefs::Save()
-void PlayerPrefs_Save()
-{
-    //printf("PlayerPrefs_Save\n");
+    typedef bool (EXPORTAPI *PlayerPrefs_TrySetIntPfn)(Il2CppChar* key, int32_t value);
+    typedef bool (EXPORTAPI *PlayerPrefs_TrySetFloatPfn)(Il2CppChar* key, float value);
+    typedef bool (EXPORTAPI *PlayerPrefs_TrySetSetStringPfn)(Il2CppChar* key, Il2CppChar* value);
+    typedef int32_t (EXPORTAPI *PlayerPrefs_GetIntPfn)(Il2CppChar* key, int32_t defaultValue);
+    typedef float (EXPORTAPI *PlayerPrefs_GetFloatPfn)(Il2CppChar* key, float defaultValue);
+    typedef Il2CppChar* (EXPORTAPI *PlayerPrefs_GetStringPfn)(Il2CppChar* key, Il2CppChar* defaultValue);
+    typedef bool (EXPORTAPI *PlayerPrefs_HasKeyPfn)(Il2CppChar* key);
+    typedef void (EXPORTAPI *PlayerPrefs_DeleteKeyPfn)(Il2CppChar* key);
+    typedef void (EXPORTAPI *PlayerPrefs_DeleteAllPfn)();
+    typedef void (EXPORTAPI *PlayerPrefs_SavePfn)();
+
+
+    typedef struct PlayerPrefs_Callbacks
+    {
+        PlayerPrefs_TrySetIntPfn TrySetInt;
+        PlayerPrefs_TrySetFloatPfn TrySetFloat;
+        PlayerPrefs_TrySetSetStringPfn TrySetSetString;
+        PlayerPrefs_GetIntPfn GetInt;
+        PlayerPrefs_GetFloatPfn GetFloat;
+        PlayerPrefs_GetStringPfn GetString;
+        PlayerPrefs_HasKeyPfn HasKey;
+        PlayerPrefs_DeleteKeyPfn DeleteKey;
+        PlayerPrefs_DeleteAllPfn DeleteAll;
+        PlayerPrefs_SavePfn Save;
+    } PlayerPrefs_Callbacks;
+
+
+    PlayerPrefs_Callbacks _playerPrefsCallbacks;
+
+
+    // System.Boolean UnityEngine.PlayerPrefs::TrySetInt(System.String,System.Int32)
+    bool PlayerPrefs_TrySetInt(Il2CppString* key, int32_t value)
+    {
+        return true;//_playerPrefs_Callbacks.TrySetInt();
+    }
+    // System.Boolean UnityEngine.PlayerPrefs::TrySetFloat(System.String,System.Single)
+    bool PlayerPrefs_TrySetFloat(Il2CppString* key, float value)
+    {
+        return true;
+    }
+    // System.Boolean UnityEngine.PlayerPrefs::TrySetSetString(System.String,System.String)
+    bool PlayerPrefs_TrySetSetString(Il2CppString* key, Il2CppString* value)
+    {
+        /*Il2CppChar* u16Key = StringUtils::GetChars(key);
+        Il2CppChar* u16Value = StringUtils::GetChars(value);
+        std::string u8Key = StringUtils::Utf16ToUtf8(u16Key);
+        std::string u8Value = StringUtils::Utf16ToUtf8(u16Value);
+        printf("%s = %s\n", u8Key.c_str(), u8Value.c_str());*/
+
+        return _playerPrefsCallbacks.TrySetSetString(StringUtils::GetChars(key),
+                                                     StringUtils::GetChars(value));
+    }
+    // System.Int32 UnityEngine.PlayerPrefs::GetInt(System.String,System.Int32)
+    int32_t PlayerPrefs_GetInt(Il2CppString* key, int32_t defaultValue)
+    {
+        //printf("PlayerPrefs_GetInt\n");
+        return defaultValue;
+    }
+    // System.Single UnityEngine.PlayerPrefs::GetFloat(System.String,System.Single)
+    float PlayerPrefs_GetFloat(Il2CppString* key, float defaultValue)
+    {
+        //printf("PlayerPrefs_GetFloat\n");
+        return defaultValue;
+    }
+    // System.String UnityEngine.PlayerPrefs::GetString(System.String,System.String)
+    Il2CppString* PlayerPrefs_GetString(Il2CppString* key, Il2CppString* defaultValue)
+    {
+        //printf("PlayerPrefs_GetString\n");
+        return defaultValue;
+    }
+    // System.Boolean UnityEngine.PlayerPrefs::HasKey(System.String)
+    bool PlayerPrefs_HasKey(Il2CppString* key)
+    {
+        //printf("PlayerPrefs_HasKey\n");
+        return false;
+    }
+    // System.Void UnityEngine.PlayerPrefs::DeleteKey(System.String)
+    void PlayerPrefs_DeleteKey(Il2CppString* key)
+    {
+        //printf("PlayerPrefs_DeleteKey\n");
+    }
+    // System.Void UnityEngine.PlayerPrefs::DeleteAll()
+    void PlayerPrefs_DeleteAll()
+    {
+        //printf("PlayerPrefs_DeleteAll\n");
+    }
+    // System.Void UnityEngine.PlayerPrefs::Save()
+    void PlayerPrefs_Save()
+    {
+        //printf("PlayerPrefs_Save\n");
+    }
 }
 
 
-extern "C" void EXPORTAPI InstallHooks()
+using namespace Fiftytwo;
+
+extern "C" void EXPORTAPI Fiftytwo_PlayerPrefs_InstallHooks(PlayerPrefs_Callbacks callbacks)
 {
     static bool isInstalled;
     if (isInstalled)
         return;
     isInstalled = true;
-    //printf("=== InstallHooks() ===\n");
-    il2cpp::vm::InternalCalls::Add("UnityEngine.PlayerPrefs::TrySetInt(System.String,System.Int32)",
-                                   (Il2CppMethodPointer)PlayerPrefs_TrySetInt);
-    il2cpp::vm::InternalCalls::Add("UnityEngine.PlayerPrefs::TrySetFloat(System.String,System.Single)",
-                                   (Il2CppMethodPointer)PlayerPrefs_TrySetFloat);
-    il2cpp::vm::InternalCalls::Add("UnityEngine.PlayerPrefs::TrySetSetString(System.String,System.String)",
-                                   (Il2CppMethodPointer)PlayerPrefs_TrySetSetString);
-    il2cpp::vm::InternalCalls::Add("UnityEngine.PlayerPrefs::GetInt(System.String,System.Int32)",
-                                   (Il2CppMethodPointer)PlayerPrefs_GetInt);
-    il2cpp::vm::InternalCalls::Add("UnityEngine.PlayerPrefs::GetFloat(System.String,System.Single)",
-                                   (Il2CppMethodPointer)PlayerPrefs_GetFloat);
-    il2cpp::vm::InternalCalls::Add("UnityEngine.PlayerPrefs::GetString(System.String,System.String)",
-                                   (Il2CppMethodPointer)PlayerPrefs_GetString);
-    il2cpp::vm::InternalCalls::Add("UnityEngine.PlayerPrefs::HasKey(System.String)",
-                                   (Il2CppMethodPointer)PlayerPrefs_HasKey);
-    il2cpp::vm::InternalCalls::Add("UnityEngine.PlayerPrefs::DeleteKey(System.String)",
-                                   (Il2CppMethodPointer)PlayerPrefs_DeleteKey);
-    il2cpp::vm::InternalCalls::Add("UnityEngine.PlayerPrefs::DeleteAll()",
-                                   (Il2CppMethodPointer)PlayerPrefs_DeleteAll);
-    il2cpp::vm::InternalCalls::Add("UnityEngine.PlayerPrefs::Save()",
-                                   (Il2CppMethodPointer)PlayerPrefs_Save);
-}
 
+    _playerPrefsCallbacks = callbacks;
 
-extern "C" char* EXPORTAPI ProcessString(char *str)
-{
-    char16_t *str_good = (char16_t *)str;
-    size_t len = std::char_traits<char16_t>::length(str_good);
-    
-    std::wstring_convert< std::codecvt_utf8_utf16<char16_t>, char16_t > convert;
-    
-    std::u16string str16 = str_good;
-    
-    std::string utf8Str = convert.to_bytes(str16);
-    printf("str[%zu]=%s\n", utf8Str.size(), utf8Str.c_str());
-    return nullptr;//strdup(str);
-}
-
-
-extern "C" int EXPORTAPI CountLettersInString(char16_t* str, char16_t* str2)
-{
-    printf("=== CountLettersInString ===\n");
-
-    int length = 0;
-    while (*str++ != L'\0')
-        length++;
-
-    while (*str2++ != L'\0')
-        length--;
-
-    return length;
+    InternalCalls::Add("UnityEngine.PlayerPrefs::TrySetInt(System.String,System.Int32)",
+                       reinterpret_cast<Il2CppMethodPointer>(PlayerPrefs_TrySetInt));
+    InternalCalls::Add("UnityEngine.PlayerPrefs::TrySetFloat(System.String,System.Single)",
+                       reinterpret_cast<Il2CppMethodPointer>(PlayerPrefs_TrySetFloat));
+    InternalCalls::Add("UnityEngine.PlayerPrefs::TrySetSetString(System.String,System.String)",
+                       reinterpret_cast<Il2CppMethodPointer>(PlayerPrefs_TrySetSetString));
+    InternalCalls::Add("UnityEngine.PlayerPrefs::GetInt(System.String,System.Int32)",
+                       reinterpret_cast<Il2CppMethodPointer>(PlayerPrefs_GetInt));
+    InternalCalls::Add("UnityEngine.PlayerPrefs::GetFloat(System.String,System.Single)",
+                       reinterpret_cast<Il2CppMethodPointer>(PlayerPrefs_GetFloat));
+    InternalCalls::Add("UnityEngine.PlayerPrefs::GetString(System.String,System.String)",
+                       reinterpret_cast<Il2CppMethodPointer>(PlayerPrefs_GetString));
+    InternalCalls::Add("UnityEngine.PlayerPrefs::HasKey(System.String)",
+                       reinterpret_cast<Il2CppMethodPointer>(PlayerPrefs_HasKey));
+    InternalCalls::Add("UnityEngine.PlayerPrefs::DeleteKey(System.String)",
+                       reinterpret_cast<Il2CppMethodPointer>(PlayerPrefs_DeleteKey));
+    InternalCalls::Add("UnityEngine.PlayerPrefs::DeleteAll()",
+                       reinterpret_cast<Il2CppMethodPointer>(PlayerPrefs_DeleteAll));
+    InternalCalls::Add("UnityEngine.PlayerPrefs::Save()",
+                       reinterpret_cast<Il2CppMethodPointer>(PlayerPrefs_Save));
 }
