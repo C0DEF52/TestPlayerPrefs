@@ -79,17 +79,21 @@ namespace Fiftytwo
         typedef void(*DeleteAllInternalPfn)();
         typedef void(*SaveInternalPfn)();
 
+        typedef struct InternalCallbacks
+        {
+            TrySetIntInternalPfn TrySetIntInternal;
+            TrySetFloatInternalPfn TrySetFloatInternal;
+            TrySetSetStringInternalPfn TrySetSetStringInternal;
+            GetIntInternalPfn GetIntInternal;
+            GetFloatInternalPfn GetFloatInternal;
+            GetStringInternalPfn GetStringInternal;
+            HasKeyInternalPfn HasKeyInternal;
+            DeleteKeyInternalPfn DeleteKeyInternal;
+            DeleteAllInternalPfn DeleteAllInternal;
+            SaveInternalPfn SaveInternal;
+        } InternalCallbacks;
 
-        static TrySetIntInternalPfn TrySetIntInternal;
-        static TrySetFloatInternalPfn TrySetFloatInternal;
-        static TrySetSetStringInternalPfn TrySetSetStringInternal;
-        static GetIntInternalPfn GetIntInternal;
-        static GetFloatInternalPfn GetFloatInternal;
-        static GetStringInternalPfn GetStringInternal;
-        static HasKeyInternalPfn HasKeyInternal;
-        static DeleteKeyInternalPfn DeleteKeyInternal;
-        static DeleteAllInternalPfn DeleteAllInternal;
-        static SaveInternalPfn SaveInternal;
+        static  InternalCallbacks _internalCallbacks;
 
         static Callbacks _callbacks;
 
@@ -100,7 +104,7 @@ namespace Fiftytwo
         static bool TrySetInt(Il2CppString* key, int32_t value)
         {
             if (_callbacks.TrySetInt == nullptr)
-                return TrySetIntInternal(key, value);
+                return _internalCallbacks.TrySetIntInternal(key, value);
 
             return _callbacks.TrySetInt(StringUtils::GetChars(key), value);
         }
@@ -109,7 +113,7 @@ namespace Fiftytwo
         static bool TrySetFloat(Il2CppString* key, float value)
         {
             if (_callbacks.TrySetFloat == nullptr)
-                return TrySetFloatInternal(key, value);
+                return _internalCallbacks.TrySetFloatInternal(key, value);
 
             return _callbacks.TrySetFloat(StringUtils::GetChars(key), value);
         }
@@ -123,7 +127,7 @@ namespace Fiftytwo
             std::string u8Value = StringUtils::Utf16ToUtf8(u16Value);
             printf("%s = %s\n", u8Key.c_str(), u8Value.c_str());*/
             if (_callbacks.TrySetSetString == nullptr)
-                return TrySetSetStringInternal(key, value);
+                return _internalCallbacks.TrySetSetStringInternal(key, value);
 
             return _callbacks.TrySetSetString(StringUtils::GetChars(key),
                 StringUtils::GetChars(value));
@@ -133,7 +137,7 @@ namespace Fiftytwo
         static int32_t GetInt(Il2CppString* key, int32_t defaultValue)
         {
             if (_callbacks.GetInt == nullptr)
-                return GetIntInternal(key, defaultValue);
+                return _internalCallbacks.GetIntInternal(key, defaultValue);
 
             return _callbacks.GetInt(StringUtils::GetChars(key), defaultValue);
         }
@@ -142,7 +146,7 @@ namespace Fiftytwo
         static float GetFloat(Il2CppString* key, float defaultValue)
         {
             if (_callbacks.GetFloat == nullptr)
-                return GetFloatInternal(key, defaultValue);
+                return _internalCallbacks.GetFloatInternal(key, defaultValue);
 
             return _callbacks.GetFloat(StringUtils::GetChars(key), defaultValue);
         }
@@ -151,7 +155,7 @@ namespace Fiftytwo
         static Il2CppString* GetString(Il2CppString* key, Il2CppString* defaultValue)
         {
             if (_callbacks.GetString == nullptr)
-                return GetStringInternal(key, defaultValue);;
+                return _internalCallbacks.GetStringInternal(key, defaultValue);;
 
             Il2CppChar* value = _callbacks.GetString(StringUtils::GetChars(key),
                 StringUtils::GetChars(defaultValue));
@@ -162,7 +166,7 @@ namespace Fiftytwo
         static bool HasKey(Il2CppString* key)
         {
             if (_callbacks.HasKey == nullptr)
-                return HasKeyInternal(key);
+                return _internalCallbacks.HasKeyInternal(key);
 
             return _callbacks.HasKey(StringUtils::GetChars(key));
         }
@@ -172,7 +176,7 @@ namespace Fiftytwo
         {
             if (_callbacks.DeleteKey == nullptr)
             {
-                DeleteKeyInternal(key);
+                _internalCallbacks.DeleteKeyInternal(key);
                 return;
             }
 
@@ -184,7 +188,7 @@ namespace Fiftytwo
         {
             if (_callbacks.DeleteAll == nullptr)
             {
-                DeleteAllInternal();
+                _internalCallbacks.DeleteAllInternal();
                 return;
             }
 
@@ -196,7 +200,7 @@ namespace Fiftytwo
         {
             if (_callbacks.Save == nullptr)
             {
-                SaveInternal();
+                _internalCallbacks.SaveInternal();
                 return;
             }
 
@@ -205,56 +209,55 @@ namespace Fiftytwo
 
         static void OnRuntimeInitialize()
         {
-            TrySetIntInternal = reinterpret_cast<TrySetIntInternalPfn>(
+            _internalCallbacks.TrySetIntInternal = reinterpret_cast<TrySetIntInternalPfn>(
                 il2cpp_codegen_resolve_icall("UnityEngine.PlayerPrefs::TrySetInt(System.String,System.Int32)"));
             InternalCalls::Add("UnityEngine.PlayerPrefs::TrySetInt(System.String,System.Int32)",
                 reinterpret_cast<Il2CppMethodPointer>(TrySetInt));
 
-            TrySetFloatInternal = reinterpret_cast<TrySetFloatInternalPfn>(
+            _internalCallbacks.TrySetFloatInternal = reinterpret_cast<TrySetFloatInternalPfn>(
                 il2cpp_codegen_resolve_icall("UnityEngine.PlayerPrefs::TrySetFloat(System.String,System.Single)"));
             InternalCalls::Add("UnityEngine.PlayerPrefs::TrySetFloat(System.String,System.Single)",
                 reinterpret_cast<Il2CppMethodPointer>(TrySetFloat));
 
-            TrySetSetStringInternal = reinterpret_cast<TrySetSetStringInternalPfn>(
+            _internalCallbacks.TrySetSetStringInternal = reinterpret_cast<TrySetSetStringInternalPfn>(
                 il2cpp_codegen_resolve_icall("UnityEngine.PlayerPrefs::TrySetSetString(System.String,System.String)"));
             InternalCalls::Add("UnityEngine.PlayerPrefs::TrySetSetString(System.String,System.String)",
                 reinterpret_cast<Il2CppMethodPointer>(TrySetSetString));
 
-            GetIntInternal = reinterpret_cast<GetIntInternalPfn>(
+            _internalCallbacks.GetIntInternal = reinterpret_cast<GetIntInternalPfn>(
                 il2cpp_codegen_resolve_icall("UnityEngine.PlayerPrefs::GetInt(System.String,System.Int32)"));
             InternalCalls::Add("UnityEngine.PlayerPrefs::GetInt(System.String,System.Int32)",
                 reinterpret_cast<Il2CppMethodPointer>(GetInt));
 
-            GetFloatInternal = reinterpret_cast<GetFloatInternalPfn>(
+            _internalCallbacks.GetFloatInternal = reinterpret_cast<GetFloatInternalPfn>(
                 il2cpp_codegen_resolve_icall("UnityEngine.PlayerPrefs::GetFloat(System.String,System.Single)"));
             InternalCalls::Add("UnityEngine.PlayerPrefs::GetFloat(System.String,System.Single)",
                 reinterpret_cast<Il2CppMethodPointer>(GetFloat));
 
-            GetStringInternal = reinterpret_cast<GetStringInternalPfn>(
+            _internalCallbacks.GetStringInternal = reinterpret_cast<GetStringInternalPfn>(
                 il2cpp_codegen_resolve_icall("UnityEngine.PlayerPrefs::GetString(System.String,System.String)"));
             InternalCalls::Add("UnityEngine.PlayerPrefs::GetString(System.String,System.String)",
                 reinterpret_cast<Il2CppMethodPointer>(GetString));
 
-            HasKeyInternal = reinterpret_cast<HasKeyInternalPfn>(
+            _internalCallbacks.HasKeyInternal = reinterpret_cast<HasKeyInternalPfn>(
                 il2cpp_codegen_resolve_icall("UnityEngine.PlayerPrefs::HasKey(System.String)"));
             InternalCalls::Add("UnityEngine.PlayerPrefs::HasKey(System.String)",
                 reinterpret_cast<Il2CppMethodPointer>(HasKey));
 
-            DeleteKeyInternal = reinterpret_cast<DeleteKeyInternalPfn>(
+            _internalCallbacks.DeleteKeyInternal = reinterpret_cast<DeleteKeyInternalPfn>(
                 il2cpp_codegen_resolve_icall("UnityEngine.PlayerPrefs::DeleteKey(System.String)"));
             InternalCalls::Add("UnityEngine.PlayerPrefs::DeleteKey(System.String)",
                 reinterpret_cast<Il2CppMethodPointer>(DeleteKey));
 
-            DeleteAllInternal = reinterpret_cast<DeleteAllInternalPfn>(
+            _internalCallbacks.DeleteAllInternal = reinterpret_cast<DeleteAllInternalPfn>(
                 il2cpp_codegen_resolve_icall("UnityEngine.PlayerPrefs::DeleteAll()"));
             InternalCalls::Add("UnityEngine.PlayerPrefs::DeleteAll()",
                 reinterpret_cast<Il2CppMethodPointer>(DeleteAll));
 
-            SaveInternal = reinterpret_cast<SaveInternalPfn>(
+            _internalCallbacks.SaveInternal = reinterpret_cast<SaveInternalPfn>(
                 il2cpp_codegen_resolve_icall("UnityEngine.PlayerPrefs::Save()"));
             InternalCalls::Add("UnityEngine.PlayerPrefs::Save()",
                 reinterpret_cast<Il2CppMethodPointer>(Save));
-
         }
 
         static void OnRuntimeCleanup()
@@ -263,16 +266,7 @@ namespace Fiftytwo
     };
 
 
-    PlayerPrefsHooks::TrySetIntInternalPfn PlayerPrefsHooks::TrySetIntInternal;
-    PlayerPrefsHooks::TrySetFloatInternalPfn PlayerPrefsHooks::TrySetFloatInternal;
-    PlayerPrefsHooks::TrySetSetStringInternalPfn PlayerPrefsHooks::TrySetSetStringInternal;
-    PlayerPrefsHooks::GetIntInternalPfn PlayerPrefsHooks::GetIntInternal;
-    PlayerPrefsHooks::GetFloatInternalPfn PlayerPrefsHooks::GetFloatInternal;
-    PlayerPrefsHooks::GetStringInternalPfn PlayerPrefsHooks::GetStringInternal;
-    PlayerPrefsHooks::HasKeyInternalPfn PlayerPrefsHooks::HasKeyInternal;
-    PlayerPrefsHooks::DeleteKeyInternalPfn PlayerPrefsHooks::DeleteKeyInternal;
-    PlayerPrefsHooks::DeleteAllInternalPfn PlayerPrefsHooks::DeleteAllInternal;
-    PlayerPrefsHooks::SaveInternalPfn PlayerPrefsHooks::SaveInternal;
+    PlayerPrefsHooks::InternalCallbacks PlayerPrefsHooks::_internalCallbacks;
 
     PlayerPrefsHooks::Callbacks PlayerPrefsHooks::_callbacks;
 
