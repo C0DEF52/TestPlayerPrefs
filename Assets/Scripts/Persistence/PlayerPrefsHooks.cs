@@ -20,14 +20,17 @@ namespace Fiftytwo
 {
     public static class PlayerPrefsHooks
     {
-        public delegate bool TrySetIntDelegate(string key, int value);
-        public delegate bool TrySetFloatDelegate(string key, float value);
-        public delegate bool TrySetSetStringDelegate( string key, string value);
-        public delegate int GetIntDelegate(string key, int defaultValue);
-        public delegate float GetFloatDelegate(string key, float defaultValue);
-        public delegate  string GetStringDelegate(string key, string defaultValue);
-        public delegate bool HasKeyDelegate(string key);
-        public delegate void DeleteKeyDelegate(string key);
+        public delegate bool TrySetIntDelegate([MarshalAs( UnmanagedType.LPWStr )] string key, int value);
+        public delegate bool TrySetFloatDelegate([MarshalAs( UnmanagedType.LPWStr )] string key, float value);
+        public delegate bool TrySetSetStringDelegate(
+            [MarshalAs( UnmanagedType.LPWStr )] string key, [MarshalAs( UnmanagedType.LPWStr )] string value);
+        public delegate int GetIntDelegate([MarshalAs( UnmanagedType.LPWStr )] string key, int defaultValue);
+        public delegate float GetFloatDelegate([MarshalAs( UnmanagedType.LPWStr )] string key, float defaultValue);
+        [return: MarshalAs( UnmanagedType.LPWStr )]
+        public delegate  string GetStringDelegate(
+            [MarshalAs( UnmanagedType.LPWStr )] string key, [MarshalAs( UnmanagedType.LPWStr )] string defaultValue);
+        public delegate bool HasKeyDelegate([MarshalAs( UnmanagedType.LPWStr )] string key);
+        public delegate void DeleteKeyDelegate([MarshalAs( UnmanagedType.LPWStr )] string key);
         public delegate void DeleteAllDelegate();
         public delegate void SaveDelegate();
 
@@ -99,7 +102,7 @@ namespace Fiftytwo
 
 
         [AOT.MonoPInvokeCallback( typeof( TrySetIntDelegate ) )]
-        private static bool OnTrySetInt([MarshalAs( UnmanagedType.LPWStr )] string key, int value)
+        private static bool OnTrySetInt(string key, int value)
         {
             _storage[key] = value;
             Dbg.Log( "_storage[{0}] = {1}", key, value );
@@ -107,7 +110,7 @@ namespace Fiftytwo
         }
 
         [AOT.MonoPInvokeCallback( typeof( TrySetFloatDelegate ) )]
-        private static bool OnTrySetFloat([MarshalAs( UnmanagedType.LPWStr )] string key, float value)
+        private static bool OnTrySetFloat(string key, float value)
         {
             _storage[key] = value;
             Dbg.Log( "_storage[{0}] = {1}", key, value );
@@ -115,8 +118,7 @@ namespace Fiftytwo
         }
 
         [AOT.MonoPInvokeCallback( typeof( TrySetSetStringDelegate ) )]
-        private static bool OnTrySetSetString(
-            [MarshalAs( UnmanagedType.LPWStr )] string key, [MarshalAs( UnmanagedType.LPWStr )] string value)
+        private static bool OnTrySetSetString(string key, string value)
         {
             _storage[key] = value;
             Dbg.Log( "_storage[{0}] = {1}", key, value );
@@ -124,7 +126,7 @@ namespace Fiftytwo
         }
 
         [AOT.MonoPInvokeCallback( typeof( GetIntDelegate ) )]
-        private static int OnGetInt([MarshalAs( UnmanagedType.LPWStr )] string key, int defaultValue)
+        private static int OnGetInt(string key, int defaultValue)
         {
             object obj;
             if( _storage.TryGetValue( key, out obj ) && obj is int )
@@ -134,7 +136,7 @@ namespace Fiftytwo
         }
 
         [AOT.MonoPInvokeCallback( typeof( GetFloatDelegate ) )]
-        private static float OnGetFloat([MarshalAs( UnmanagedType.LPWStr )] string key, float defaultValue)
+        private static float OnGetFloat(string key, float defaultValue)
         {
             object obj;
             if( _storage.TryGetValue( key, out obj ) && obj is float )
@@ -144,9 +146,7 @@ namespace Fiftytwo
         }
 
         [AOT.MonoPInvokeCallback( typeof( GetStringDelegate ) )]
-        [return: MarshalAs( UnmanagedType.LPWStr )]
-        private static string OnGetString(
-            [MarshalAs( UnmanagedType.LPWStr )] string key, [MarshalAs( UnmanagedType.LPWStr )] string defaultValue)
+        private static string OnGetString(string key, string defaultValue)
         {
             object obj;
             if( _storage.TryGetValue( key, out obj ) && obj is string )
@@ -156,7 +156,7 @@ namespace Fiftytwo
         }
 
         [AOT.MonoPInvokeCallback( typeof( HasKeyDelegate ) )]
-        private static bool OnHasKey([MarshalAs( UnmanagedType.LPWStr )] string key)
+        private static bool OnHasKey(string key)
         {
             var hasKey = _storage.ContainsKey( key );
             Dbg.Log( "HasKey[{0}]? {1}", key, hasKey );
@@ -164,7 +164,7 @@ namespace Fiftytwo
         }
 
         [AOT.MonoPInvokeCallback( typeof( DeleteKeyDelegate ) )]
-        private static void OnDeleteKey([MarshalAs( UnmanagedType.LPWStr )] string key)
+        private static void OnDeleteKey(string key)
         {
             _storage.Remove( key );
             Dbg.Log( "Delete[{0}]", key );
