@@ -94,8 +94,6 @@ namespace Fiftytwo
             Save = OnSave,
         };
 
-        private static readonly Dictionary<string, object> _storage = new Dictionary<string, object>();
-
 
         [DllImport("__Internal")]
         private static extern void Fiftytwo_PlayerPrefsHooks_SetCallbacks( Callbacks callbacks );
@@ -104,83 +102,78 @@ namespace Fiftytwo
         [AOT.MonoPInvokeCallback( typeof( TrySetIntDelegate ) )]
         private static bool OnTrySetInt(string key, int value)
         {
-            _storage[key] = value;
-            Dbg.Log( "_storage[{0}] = {1}", key, value );
+            if( TrySetInt != null )
+                return TrySetInt( key, value );
             return true;
         }
 
         [AOT.MonoPInvokeCallback( typeof( TrySetFloatDelegate ) )]
         private static bool OnTrySetFloat(string key, float value)
         {
-            _storage[key] = value;
-            Dbg.Log( "_storage[{0}] = {1}", key, value );
+            if( TrySetFloat != null )
+                return TrySetFloat( key, value );
             return true;
         }
 
         [AOT.MonoPInvokeCallback( typeof( TrySetSetStringDelegate ) )]
         private static bool OnTrySetSetString(string key, string value)
         {
-            _storage[key] = value;
-            Dbg.Log( "_storage[{0}] = {1}", key, value );
+            if( TrySetSetString != null )
+                return TrySetSetString( key, value );
             return true;
         }
 
         [AOT.MonoPInvokeCallback( typeof( GetIntDelegate ) )]
         private static int OnGetInt(string key, int defaultValue)
         {
-            object obj;
-            if( _storage.TryGetValue( key, out obj ) && obj is int )
-                defaultValue = ( int )obj;
-            Dbg.Log( "Get[{0}] = {1}", key, defaultValue );
+            if( GetInt != null )
+                return GetInt( key, defaultValue );
             return defaultValue;
         }
 
         [AOT.MonoPInvokeCallback( typeof( GetFloatDelegate ) )]
         private static float OnGetFloat(string key, float defaultValue)
         {
-            object obj;
-            if( _storage.TryGetValue( key, out obj ) && obj is float )
-                defaultValue = ( float )obj;
-            Dbg.Log( "Get[{0}] = {1}", key, defaultValue );
+            if( GetFloat != null )
+                return GetFloat( key, defaultValue );
             return defaultValue;
         }
 
         [AOT.MonoPInvokeCallback( typeof( GetStringDelegate ) )]
         private static string OnGetString(string key, string defaultValue)
         {
-            object obj;
-            if( _storage.TryGetValue( key, out obj ) && obj is string )
-                defaultValue = ( string )obj;
-            Dbg.Log( "Get[{0}] = {1}", key, defaultValue );
+            if( GetString != null )
+                return GetString( key, defaultValue );
             return defaultValue;
         }
 
         [AOT.MonoPInvokeCallback( typeof( HasKeyDelegate ) )]
         private static bool OnHasKey(string key)
         {
-            var hasKey = _storage.ContainsKey( key );
-            Dbg.Log( "HasKey[{0}]? {1}", key, hasKey );
-            return hasKey;
+            if( HasKey != null )
+                return HasKey( key );
+            return false;
         }
 
         [AOT.MonoPInvokeCallback( typeof( DeleteKeyDelegate ) )]
         private static void OnDeleteKey(string key)
         {
-            _storage.Remove( key );
-            Dbg.Log( "Delete[{0}]", key );
+            if( DeleteKey != null )
+                DeleteKey( key );
         }
 
         [AOT.MonoPInvokeCallback( typeof( DeleteAllDelegate ) )]
         private static void OnDeleteAll()
         {
-            _storage.Clear();
-            Dbg.Log( "DeleteAll" );
+            if( DeleteAll != null )
+                DeleteAll();
         }
 
         [AOT.MonoPInvokeCallback( typeof( SaveDelegate ) )]
         private static void OnSave()
         {
-            Dbg.Log( "Save" );
+            if( Save != null )
+                Save();
         }
 
 #endif
