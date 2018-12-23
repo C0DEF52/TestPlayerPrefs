@@ -37,7 +37,7 @@ namespace Fiftytwo
     public:
         typedef bool(*DEFAULT_CALL TrySetIntPfn)(Il2CppChar* key, int32_t value);
         typedef bool(*DEFAULT_CALL TrySetFloatPfn)(Il2CppChar* key, float value);
-        typedef bool(*DEFAULT_CALL TrySetSetStringPfn)(Il2CppChar* key, Il2CppChar* value);
+        typedef bool(*DEFAULT_CALL TrySetStringPfn)(Il2CppChar* key, Il2CppChar* value);
         typedef int32_t(*DEFAULT_CALL GetIntPfn)(Il2CppChar* key, int32_t defaultValue);
         typedef float(*DEFAULT_CALL GetFloatPfn)(Il2CppChar* key, float defaultValue);
         typedef Il2CppChar* (*DEFAULT_CALL GetStringPfn)(Il2CppChar* key, Il2CppChar* defaultValue);
@@ -50,7 +50,7 @@ namespace Fiftytwo
         {
             TrySetIntPfn TrySetInt;
             TrySetFloatPfn TrySetFloat;
-            TrySetSetStringPfn TrySetSetString;
+            TrySetStringPfn TrySetString;
             GetIntPfn GetInt;
             GetFloatPfn GetFloat;
             GetStringPfn GetString;
@@ -70,7 +70,7 @@ namespace Fiftytwo
     private:
         typedef bool(*TrySetIntInternalPfn)(Il2CppString* key, int32_t value);
         typedef bool(*TrySetFloatInternalPfn)(Il2CppString* key, float value);
-        typedef bool(*TrySetSetStringInternalPfn)(Il2CppString* key, Il2CppString* value);
+        typedef bool(*TrySetStringInternalPfn)(Il2CppString* key, Il2CppString* value);
         typedef int32_t(*GetIntInternalPfn)(Il2CppString* key, int32_t defaultValue);
         typedef float(*GetFloatInternalPfn)(Il2CppString* key, float defaultValue);
         typedef Il2CppString* (*GetStringInternalPfn)(Il2CppString* key, Il2CppString* defaultValue);
@@ -83,7 +83,7 @@ namespace Fiftytwo
         {
             TrySetIntInternalPfn TrySetIntInternal;
             TrySetFloatInternalPfn TrySetFloatInternal;
-            TrySetSetStringInternalPfn TrySetSetStringInternal;
+            TrySetStringInternalPfn TrySetStringInternal;
             GetIntInternalPfn GetIntInternal;
             GetFloatInternalPfn GetFloatInternal;
             GetStringInternalPfn GetStringInternal;
@@ -93,11 +93,25 @@ namespace Fiftytwo
             SaveInternalPfn SaveInternal;
         } InternalCallbacks;
 
-        static  InternalCallbacks _internalCallbacks;
+        typedef struct ManagedNames
+        {
+            static constexpr char TrySetInt[] = "UnityEngine.PlayerPrefs::TrySetInt(System.String,System.Int32)";
+            static constexpr char TrySetFloat[] = "UnityEngine.PlayerPrefs::TrySetFloat(System.String,System.Single)";
+            static constexpr char TrySetString[] = "UnityEngine.PlayerPrefs::TrySetSetString(System.String,System.String)";
+            static constexpr char GetInt[] = "UnityEngine.PlayerPrefs::GetInt(System.String,System.Int32)";
+            static constexpr char GetFloat[] = "UnityEngine.PlayerPrefs::GetFloat(System.String,System.Single)";
+            static constexpr char GetString[] = "UnityEngine.PlayerPrefs::GetString(System.String,System.String)";
+            static constexpr char HasKey[] = "UnityEngine.PlayerPrefs::HasKey(System.String)";
+            static constexpr char DeleteKey[] = "UnityEngine.PlayerPrefs::DeleteKey(System.String)";
+            static constexpr char DeleteAll[] = "UnityEngine.PlayerPrefs::DeleteAll()";
+            static constexpr char Save[] = "UnityEngine.PlayerPrefs::Save()";
+        } ManagedNames;
+
+        static InternalCallbacks _internalCallbacks;
 
         static Callbacks _callbacks;
 
-        static RegisterRuntimeInitializeAndCleanup _runtimeInitializeAndCleanup;
+        static const RegisterRuntimeInitializeAndCleanup _runtimeInitializeAndCleanup;
 
 
         // System.Boolean UnityEngine.PlayerPrefs::TrySetInt(System.String,System.Int32)
@@ -119,17 +133,12 @@ namespace Fiftytwo
         }
 
         // System.Boolean UnityEngine.PlayerPrefs::TrySetSetString(System.String,System.String)
-        static bool TrySetSetString(Il2CppString* key, Il2CppString* value)
+        static bool TrySetString(Il2CppString* key, Il2CppString* value)
         {
-            /*Il2CppChar* u16Key = StringUtils::GetChars(key);
-            Il2CppChar* u16Value = StringUtils::GetChars(value);
-            std::string u8Key = StringUtils::Utf16ToUtf8(u16Key);
-            std::string u8Value = StringUtils::Utf16ToUtf8(u16Value);
-            printf("%s = %s\n", u8Key.c_str(), u8Value.c_str());*/
-            if (_callbacks.TrySetSetString == nullptr)
-                return _internalCallbacks.TrySetSetStringInternal(key, value);
+            if (_callbacks.TrySetString == nullptr)
+                return _internalCallbacks.TrySetStringInternal(key, value);
 
-            return _callbacks.TrySetSetString(StringUtils::GetChars(key),
+            return _callbacks.TrySetString(StringUtils::GetChars(key),
                 StringUtils::GetChars(value));
         }
 
@@ -209,55 +218,45 @@ namespace Fiftytwo
 
         static void OnRuntimeInitialize()
         {
-            _internalCallbacks.TrySetIntInternal = reinterpret_cast<TrySetIntInternalPfn>(
-                il2cpp_codegen_resolve_icall("UnityEngine.PlayerPrefs::TrySetInt(System.String,System.Int32)"));
-            InternalCalls::Add("UnityEngine.PlayerPrefs::TrySetInt(System.String,System.Int32)",
-                reinterpret_cast<Il2CppMethodPointer>(TrySetInt));
+            _internalCallbacks.TrySetIntInternal =
+                reinterpret_cast<TrySetIntInternalPfn>(il2cpp_codegen_resolve_icall(ManagedNames::TrySetInt));
+            InternalCalls::Add(ManagedNames::TrySetInt, reinterpret_cast<Il2CppMethodPointer>(TrySetInt));
 
-            _internalCallbacks.TrySetFloatInternal = reinterpret_cast<TrySetFloatInternalPfn>(
-                il2cpp_codegen_resolve_icall("UnityEngine.PlayerPrefs::TrySetFloat(System.String,System.Single)"));
-            InternalCalls::Add("UnityEngine.PlayerPrefs::TrySetFloat(System.String,System.Single)",
-                reinterpret_cast<Il2CppMethodPointer>(TrySetFloat));
+            _internalCallbacks.TrySetFloatInternal =
+                reinterpret_cast<TrySetFloatInternalPfn>(il2cpp_codegen_resolve_icall(ManagedNames::TrySetFloat));
+            InternalCalls::Add(ManagedNames::TrySetFloat, reinterpret_cast<Il2CppMethodPointer>(TrySetFloat));
 
-            _internalCallbacks.TrySetSetStringInternal = reinterpret_cast<TrySetSetStringInternalPfn>(
-                il2cpp_codegen_resolve_icall("UnityEngine.PlayerPrefs::TrySetSetString(System.String,System.String)"));
-            InternalCalls::Add("UnityEngine.PlayerPrefs::TrySetSetString(System.String,System.String)",
-                reinterpret_cast<Il2CppMethodPointer>(TrySetSetString));
+            _internalCallbacks.TrySetStringInternal =
+                reinterpret_cast<TrySetStringInternalPfn>(il2cpp_codegen_resolve_icall(ManagedNames::TrySetString));
+            InternalCalls::Add(ManagedNames::TrySetString, reinterpret_cast<Il2CppMethodPointer>(TrySetString));
 
-            _internalCallbacks.GetIntInternal = reinterpret_cast<GetIntInternalPfn>(
-                il2cpp_codegen_resolve_icall("UnityEngine.PlayerPrefs::GetInt(System.String,System.Int32)"));
-            InternalCalls::Add("UnityEngine.PlayerPrefs::GetInt(System.String,System.Int32)",
-                reinterpret_cast<Il2CppMethodPointer>(GetInt));
+            _internalCallbacks.GetIntInternal =
+                reinterpret_cast<GetIntInternalPfn>(il2cpp_codegen_resolve_icall(ManagedNames::GetInt));
+            InternalCalls::Add(ManagedNames::GetInt, reinterpret_cast<Il2CppMethodPointer>(GetInt));
 
-            _internalCallbacks.GetFloatInternal = reinterpret_cast<GetFloatInternalPfn>(
-                il2cpp_codegen_resolve_icall("UnityEngine.PlayerPrefs::GetFloat(System.String,System.Single)"));
-            InternalCalls::Add("UnityEngine.PlayerPrefs::GetFloat(System.String,System.Single)",
-                reinterpret_cast<Il2CppMethodPointer>(GetFloat));
+            _internalCallbacks.GetFloatInternal =
+                reinterpret_cast<GetFloatInternalPfn>(il2cpp_codegen_resolve_icall(ManagedNames::GetFloat));
+            InternalCalls::Add(ManagedNames::GetFloat, reinterpret_cast<Il2CppMethodPointer>(GetFloat));
 
-            _internalCallbacks.GetStringInternal = reinterpret_cast<GetStringInternalPfn>(
-                il2cpp_codegen_resolve_icall("UnityEngine.PlayerPrefs::GetString(System.String,System.String)"));
-            InternalCalls::Add("UnityEngine.PlayerPrefs::GetString(System.String,System.String)",
-                reinterpret_cast<Il2CppMethodPointer>(GetString));
+            _internalCallbacks.GetStringInternal =
+                reinterpret_cast<GetStringInternalPfn>(il2cpp_codegen_resolve_icall(ManagedNames::GetString));
+            InternalCalls::Add(ManagedNames::GetString, reinterpret_cast<Il2CppMethodPointer>(GetString));
 
-            _internalCallbacks.HasKeyInternal = reinterpret_cast<HasKeyInternalPfn>(
-                il2cpp_codegen_resolve_icall("UnityEngine.PlayerPrefs::HasKey(System.String)"));
-            InternalCalls::Add("UnityEngine.PlayerPrefs::HasKey(System.String)",
-                reinterpret_cast<Il2CppMethodPointer>(HasKey));
+            _internalCallbacks.HasKeyInternal =
+                reinterpret_cast<HasKeyInternalPfn>(il2cpp_codegen_resolve_icall(ManagedNames::HasKey));
+            InternalCalls::Add(ManagedNames::HasKey, reinterpret_cast<Il2CppMethodPointer>(HasKey));
 
-            _internalCallbacks.DeleteKeyInternal = reinterpret_cast<DeleteKeyInternalPfn>(
-                il2cpp_codegen_resolve_icall("UnityEngine.PlayerPrefs::DeleteKey(System.String)"));
-            InternalCalls::Add("UnityEngine.PlayerPrefs::DeleteKey(System.String)",
-                reinterpret_cast<Il2CppMethodPointer>(DeleteKey));
+            _internalCallbacks.DeleteKeyInternal =
+                reinterpret_cast<DeleteKeyInternalPfn>(il2cpp_codegen_resolve_icall(ManagedNames::DeleteKey));
+            InternalCalls::Add(ManagedNames::DeleteKey, reinterpret_cast<Il2CppMethodPointer>(DeleteKey));
 
-            _internalCallbacks.DeleteAllInternal = reinterpret_cast<DeleteAllInternalPfn>(
-                il2cpp_codegen_resolve_icall("UnityEngine.PlayerPrefs::DeleteAll()"));
-            InternalCalls::Add("UnityEngine.PlayerPrefs::DeleteAll()",
-                reinterpret_cast<Il2CppMethodPointer>(DeleteAll));
+            _internalCallbacks.DeleteAllInternal =
+                reinterpret_cast<DeleteAllInternalPfn>(il2cpp_codegen_resolve_icall(ManagedNames::DeleteAll));
+            InternalCalls::Add(ManagedNames::DeleteAll, reinterpret_cast<Il2CppMethodPointer>(DeleteAll));
 
-            _internalCallbacks.SaveInternal = reinterpret_cast<SaveInternalPfn>(
-                il2cpp_codegen_resolve_icall("UnityEngine.PlayerPrefs::Save()"));
-            InternalCalls::Add("UnityEngine.PlayerPrefs::Save()",
-                reinterpret_cast<Il2CppMethodPointer>(Save));
+            _internalCallbacks.SaveInternal =
+                reinterpret_cast<SaveInternalPfn>(il2cpp_codegen_resolve_icall(ManagedNames::Save));
+            InternalCalls::Add(ManagedNames::Save, reinterpret_cast<Il2CppMethodPointer>(Save));
         }
 
         static void OnRuntimeCleanup()
@@ -270,7 +269,7 @@ namespace Fiftytwo
 
     PlayerPrefsHooks::Callbacks PlayerPrefsHooks::_callbacks;
 
-    RegisterRuntimeInitializeAndCleanup
+    const RegisterRuntimeInitializeAndCleanup
         PlayerPrefsHooks::_runtimeInitializeAndCleanup(OnRuntimeInitialize, OnRuntimeCleanup);
 }
 
