@@ -22,7 +22,7 @@ namespace Fiftytwo
     {
         public delegate bool TrySetIntDelegate([MarshalAs( UnmanagedType.LPWStr )] string key, int value);
         public delegate bool TrySetFloatDelegate([MarshalAs( UnmanagedType.LPWStr )] string key, float value);
-        public delegate bool TrySetSetStringDelegate(
+        public delegate bool TrySetStringDelegate(
             [MarshalAs( UnmanagedType.LPWStr )] string key, [MarshalAs( UnmanagedType.LPWStr )] string value);
         public delegate int GetIntDelegate([MarshalAs( UnmanagedType.LPWStr )] string key, int defaultValue);
         public delegate float GetFloatDelegate([MarshalAs( UnmanagedType.LPWStr )] string key, float defaultValue);
@@ -37,7 +37,7 @@ namespace Fiftytwo
 
         public static TrySetIntDelegate TrySetInt;
         public static TrySetFloatDelegate TrySetFloat;
-        public static TrySetSetStringDelegate TrySetSetString;
+        public static TrySetStringDelegate TrySetString;
         public static GetIntDelegate GetInt;
         public static GetFloatDelegate GetFloat;
         public static GetStringDelegate GetString;
@@ -69,7 +69,7 @@ namespace Fiftytwo
         {
             public TrySetIntDelegate TrySetInt;
             public TrySetFloatDelegate TrySetFloat;
-            public TrySetSetStringDelegate TrySetSetString;
+            public TrySetStringDelegate TrySetString;
             public GetIntDelegate GetInt;
             public GetFloatDelegate GetFloat;
             public GetStringDelegate GetString;
@@ -84,7 +84,7 @@ namespace Fiftytwo
         {
             TrySetInt = OnTrySetInt,
             TrySetFloat = OnTrySetFloat,
-            TrySetSetString = OnTrySetSetString,
+            TrySetString = OnTrySetString,
             GetInt = OnGetInt,
             GetFloat = OnGetFloat,
             GetString = OnGetString,
@@ -115,11 +115,11 @@ namespace Fiftytwo
             return true;
         }
 
-        [AOT.MonoPInvokeCallback( typeof( TrySetSetStringDelegate ) )]
-        private static bool OnTrySetSetString(string key, string value)
+        [AOT.MonoPInvokeCallback( typeof( TrySetStringDelegate ) )]
+        private static bool OnTrySetString(string key, string value)
         {
-            if( TrySetSetString != null )
-                return TrySetSetString( key, value );
+            if( TrySetString != null )
+                return TrySetString( key, value );
             return true;
         }
 
