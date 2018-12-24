@@ -27,7 +27,7 @@ namespace Fiftytwo
         public delegate int GetIntDelegate([MarshalAs( UnmanagedType.LPWStr )] string key, int defaultValue);
         public delegate float GetFloatDelegate([MarshalAs( UnmanagedType.LPWStr )] string key, float defaultValue);
         [return: MarshalAs( UnmanagedType.LPWStr )]
-        public delegate  string GetStringDelegate(
+        public delegate string GetStringDelegate(
             [MarshalAs( UnmanagedType.LPWStr )] string key, [MarshalAs( UnmanagedType.LPWStr )] string defaultValue);
         public delegate bool HasKeyDelegate([MarshalAs( UnmanagedType.LPWStr )] string key);
         public delegate void DeleteKeyDelegate([MarshalAs( UnmanagedType.LPWStr )] string key);
@@ -47,7 +47,7 @@ namespace Fiftytwo
         public static SaveDelegate Save;
 
 
-        public static void SetCallbacks ()
+        public static void Initialize ()
         {
 #if ENABLE_IL2CPP && ENABLE_PLAYER_PREFS_HOOKS
             Fiftytwo_PlayerPrefsHooks_SetCallbacks( _callbacks );

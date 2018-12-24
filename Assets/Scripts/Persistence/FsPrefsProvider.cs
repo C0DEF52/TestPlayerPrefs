@@ -1,4 +1,7 @@
-﻿using System;
+﻿#define ENABLE_IL2CPP
+#define ENABLE_PLAYER_PREFS_HOOKS
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
@@ -30,11 +33,44 @@ namespace Fiftytwo
         }
 
         [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
-        private static void DisablePlayerPrefs ()
+        private static void HookPlayerPrefs ()
         {
 #if ENABLE_IL2CPP
-            PlayerPrefsHooks.SetCallbacks();
+            var me = ( FsPrefsProvider )Persistence.Player;
+            PlayerPrefsHooks.TrySetInt = me.TrySetInt;
+            PlayerPrefsHooks.TrySetFloat = me.TrySetFloat;
+            PlayerPrefsHooks.TrySetString = me.TrySetString;
+            PlayerPrefsHooks.GetInt = me.GetInt;
+            PlayerPrefsHooks.GetFloat = me.GetFloat;
+            PlayerPrefsHooks.GetString = me.GetString;
+            PlayerPrefsHooks.HasKey = me.HasKey;
+            PlayerPrefsHooks.DeleteKey = me.DeleteKey;
+            PlayerPrefsHooks.DeleteAll = me.DeleteAll;
+            PlayerPrefsHooks.Initialize();
 #endif
+        }
+
+        [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.AfterSceneLoad )]
+        private static void CreateFlusher ()
+        {
+        }
+
+        private bool TrySetInt ( string key, int value )
+        {
+            SetInt( key, value );
+            return true;
+        }
+
+        private bool TrySetFloat ( string key, float value )
+        {
+            SetFloat( key, value );
+            return true;
+        }
+
+        private bool TrySetString ( string key, string value )
+        {
+            SetString( key, value );
+            return true;
         }
     }
 }
