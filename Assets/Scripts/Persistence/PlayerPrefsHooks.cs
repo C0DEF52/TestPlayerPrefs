@@ -1,38 +1,29 @@
-﻿#define ENABLE_IL2CPP
-#define ENABLE_PLAYER_PREFS_HOOKS
+﻿//#define ENABLE_IL2CPP
+//#define ENABLE_PLAYER_PREFS_HOOKS
+
+#if ENABLE_PLAYER_PREFS_HOOKS
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using JetBrains.Annotations;
-using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.Serialization;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using System.Runtime.InteropServices;
-//using UnityEditor;
-using Object = UnityEngine.Object;
-using Debug = UnityEngine.Debug;
-using Random = UnityEngine.Random;
+using UnityEngine;
 
 namespace Fiftytwo
 {
     public static class PlayerPrefsHooks
     {
-        public delegate bool TrySetIntDelegate([MarshalAs( UnmanagedType.LPWStr )] string key, int value);
-        public delegate bool TrySetFloatDelegate([MarshalAs( UnmanagedType.LPWStr )] string key, float value);
-        public delegate bool TrySetStringDelegate(
-            [MarshalAs( UnmanagedType.LPWStr )] string key, [MarshalAs( UnmanagedType.LPWStr )] string value);
-        public delegate int GetIntDelegate([MarshalAs( UnmanagedType.LPWStr )] string key, int defaultValue);
-        public delegate float GetFloatDelegate([MarshalAs( UnmanagedType.LPWStr )] string key, float defaultValue);
+        public delegate bool TrySetIntDelegate ( [MarshalAs( UnmanagedType.LPWStr )] string key, int value );
+        public delegate bool TrySetFloatDelegate ( [MarshalAs( UnmanagedType.LPWStr )] string key, float value );
+        public delegate bool TrySetStringDelegate (
+            [MarshalAs( UnmanagedType.LPWStr )] string key, [MarshalAs( UnmanagedType.LPWStr )] string value );
+        public delegate int GetIntDelegate ( [MarshalAs( UnmanagedType.LPWStr )] string key, int defaultValue );
+        public delegate float GetFloatDelegate ( [MarshalAs( UnmanagedType.LPWStr )] string key, float defaultValue );
         [return: MarshalAs( UnmanagedType.LPWStr )]
-        public delegate string GetStringDelegate(
-            [MarshalAs( UnmanagedType.LPWStr )] string key, [MarshalAs( UnmanagedType.LPWStr )] string defaultValue);
-        public delegate bool HasKeyDelegate([MarshalAs( UnmanagedType.LPWStr )] string key);
-        public delegate void DeleteKeyDelegate([MarshalAs( UnmanagedType.LPWStr )] string key);
-        public delegate void DeleteAllDelegate();
-        public delegate void SaveDelegate();
+        public delegate string GetStringDelegate (
+            [MarshalAs( UnmanagedType.LPWStr )] string key, [MarshalAs( UnmanagedType.LPWStr )] string defaultValue );
+        public delegate bool HasKeyDelegate ( [MarshalAs( UnmanagedType.LPWStr )] string key);
+        public delegate void DeleteKeyDelegate ( [MarshalAs( UnmanagedType.LPWStr )] string key );
+        public delegate void DeleteAllDelegate ();
+        public delegate void SaveDelegate ();
 
 
         public static TrySetIntDelegate TrySetInt;
@@ -49,23 +40,40 @@ namespace Fiftytwo
 
         public static void Initialize ()
         {
-#if ENABLE_IL2CPP && ENABLE_PLAYER_PREFS_HOOKS
-            Fiftytwo_PlayerPrefsHooks_SetCallbacks( _callbacks );
+            var callbacks = 
+#if ENABLE_IL2CPP
+                new Callbacks
+                {
+                    TrySetInt = OnTrySetInt,
+                    TrySetFloat = OnTrySetFloat,
+                    TrySetString = OnTrySetString,
+                    GetInt = OnGetInt,
+                    GetFloat = OnGetFloat,
+                    GetString = OnGetString,
+                    HasKey = OnHasKey,
+                    DeleteKey = OnDeleteKey,
+                    DeleteAll = OnDeleteAll,
+                    Save = OnSave,
+                };
 #else
-    #if !ENABLE_IL2CPP
+                default( Callbacks );
+#endif
+            Initialize( callbacks );
+        }
+
+        public static void Initialize ( Callbacks callbacks )
+        {
+#if ENABLE_IL2CPP
+            _callbacks = callbacks;
+            Fiftytwo_PlayerPrefsHooks_SetCallbacks( callbacks );
+#else
             Debug.LogAssertion( "IL2CPP is disabled" );
-    #endif
-    #if !ENABLE_PLAYER_PREFS_HOOKS
-            Debug.LogAssertion( "PlayerPrefsHooks is disabled" );
-    #endif
 #endif
         }
 
 
-#if ENABLE_IL2CPP && ENABLE_PLAYER_PREFS_HOOKS
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct Callbacks
+        [StructLayout( LayoutKind.Sequential )]
+        public struct Callbacks
         {
             public TrySetIntDelegate TrySetInt;
             public TrySetFloatDelegate TrySetFloat;
@@ -80,27 +88,17 @@ namespace Fiftytwo
         }
 
 
-        private static readonly Callbacks _callbacks = new Callbacks
-        {
-            TrySetInt = OnTrySetInt,
-            TrySetFloat = OnTrySetFloat,
-            TrySetString = OnTrySetString,
-            GetInt = OnGetInt,
-            GetFloat = OnGetFloat,
-            GetString = OnGetString,
-            HasKey = OnHasKey,
-            DeleteKey = OnDeleteKey,
-            DeleteAll = OnDeleteAll,
-            Save = OnSave,
-        };
+#if ENABLE_IL2CPP
+
+        private static Callbacks _callbacks;
 
 
         [DllImport("__Internal")]
-        private static extern void Fiftytwo_PlayerPrefsHooks_SetCallbacks( Callbacks callbacks );
+        private static extern void Fiftytwo_PlayerPrefsHooks_SetCallbacks ( Callbacks callbacks );
 
 
         [AOT.MonoPInvokeCallback( typeof( TrySetIntDelegate ) )]
-        private static bool OnTrySetInt(string key, int value)
+        private static bool OnTrySetInt ( string key, int value )
         {
             if( TrySetInt != null )
                 return TrySetInt( key, value );
@@ -108,7 +106,7 @@ namespace Fiftytwo
         }
 
         [AOT.MonoPInvokeCallback( typeof( TrySetFloatDelegate ) )]
-        private static bool OnTrySetFloat(string key, float value)
+        private static bool OnTrySetFloat ( string key, float value )
         {
             if( TrySetFloat != null )
                 return TrySetFloat( key, value );
@@ -116,7 +114,7 @@ namespace Fiftytwo
         }
 
         [AOT.MonoPInvokeCallback( typeof( TrySetStringDelegate ) )]
-        private static bool OnTrySetString(string key, string value)
+        private static bool OnTrySetString ( string key, string value )
         {
             if( TrySetString != null )
                 return TrySetString( key, value );
@@ -124,7 +122,7 @@ namespace Fiftytwo
         }
 
         [AOT.MonoPInvokeCallback( typeof( GetIntDelegate ) )]
-        private static int OnGetInt(string key, int defaultValue)
+        private static int OnGetInt ( string key, int defaultValue )
         {
             if( GetInt != null )
                 return GetInt( key, defaultValue );
@@ -132,7 +130,7 @@ namespace Fiftytwo
         }
 
         [AOT.MonoPInvokeCallback( typeof( GetFloatDelegate ) )]
-        private static float OnGetFloat(string key, float defaultValue)
+        private static float OnGetFloat ( string key, float defaultValue )
         {
             if( GetFloat != null )
                 return GetFloat( key, defaultValue );
@@ -140,7 +138,7 @@ namespace Fiftytwo
         }
 
         [AOT.MonoPInvokeCallback( typeof( GetStringDelegate ) )]
-        private static string OnGetString(string key, string defaultValue)
+        private static string OnGetString ( string key, string defaultValue )
         {
             if( GetString != null )
                 return GetString( key, defaultValue );
@@ -148,7 +146,7 @@ namespace Fiftytwo
         }
 
         [AOT.MonoPInvokeCallback( typeof( HasKeyDelegate ) )]
-        private static bool OnHasKey(string key)
+        private static bool OnHasKey ( string key )
         {
             if( HasKey != null )
                 return HasKey( key );
@@ -156,21 +154,21 @@ namespace Fiftytwo
         }
 
         [AOT.MonoPInvokeCallback( typeof( DeleteKeyDelegate ) )]
-        private static void OnDeleteKey(string key)
+        private static void OnDeleteKey ( string key )
         {
             if( DeleteKey != null )
                 DeleteKey( key );
         }
 
         [AOT.MonoPInvokeCallback( typeof( DeleteAllDelegate ) )]
-        private static void OnDeleteAll()
+        private static void OnDeleteAll ()
         {
             if( DeleteAll != null )
                 DeleteAll();
         }
 
         [AOT.MonoPInvokeCallback( typeof( SaveDelegate ) )]
-        private static void OnSave()
+        private static void OnSave ()
         {
             if( Save != null )
                 Save();
@@ -179,3 +177,5 @@ namespace Fiftytwo
 #endif
     }
 }
+
+#endif

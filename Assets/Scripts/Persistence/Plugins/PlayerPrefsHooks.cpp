@@ -164,10 +164,12 @@ namespace Fiftytwo
         static Il2CppString* GetString(Il2CppString* key, Il2CppString* defaultValue)
         {
             if (_callbacks.GetString == nullptr)
-                return _internalCallbacks.GetStringInternal(key, defaultValue);;
+                return _internalCallbacks.GetStringInternal(key, defaultValue);
 
             Il2CppChar* value = _callbacks.GetString(StringUtils::GetChars(key),
-                StringUtils::GetChars(defaultValue));
+                defaultValue ? StringUtils::GetChars(defaultValue) : nullptr);
+            if (!value)
+                return nullptr;
             return String::NewUtf16(value, int32_t(StringUtils::StrLen(value)));
         }
 

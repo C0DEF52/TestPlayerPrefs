@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if ENABLE_FS_PREFS_PROVIDER
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
@@ -21,6 +23,15 @@ namespace Fiftytwo
 
         private FsPrefsProvider _provider;
 
+        [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.AfterSceneLoad )]
+        private static void Create ()
+        {
+#if !UNITY_EDITOR
+            var flusher = new GameObject( "FS Prefs Flusher", typeof( FsPrefsFlusher ) );
+            DontDestroyOnLoad( flusher );
+#endif
+        }
+
         private void Awake ()
         {
             _provider = ( FsPrefsProvider )Persistence.Player;
@@ -42,3 +53,5 @@ namespace Fiftytwo
         }
     }
 }
+
+#endif

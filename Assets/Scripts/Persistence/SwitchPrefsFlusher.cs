@@ -13,6 +13,13 @@ namespace Fiftytwo
 
         private SwitchPrefsProvider _provider;
 
+        [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.AfterSceneLoad )]
+        private static void Create ()
+        {
+            var flusher = new GameObject( "Switch Prefs Flusher", typeof( SwitchPrefsFlusher ) );
+            DontDestroyOnLoad( flusher );
+        }
+
         private void Awake ()
         {
             _provider = ( SwitchPrefsProvider )Persistence.Player;

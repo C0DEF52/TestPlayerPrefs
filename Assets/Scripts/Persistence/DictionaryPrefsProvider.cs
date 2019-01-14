@@ -16,17 +16,7 @@ namespace Fiftytwo
 {
     public abstract class DictionaryPrefsProvider : IPrefsProvider
     {
-        private readonly Dictionary<string, object> _data;
-
-        public DictionaryPrefsProvider ()
-        {
-            _data = DeserializeData();
-        }
-
-        public void Flush ()
-        {
-            SerializeData( _data );
-        }
+        protected Dictionary<string, object> _data;
 
         public bool GetBool( string key, bool defaultValue = false )
         {
@@ -39,11 +29,14 @@ namespace Fiftytwo
         public void SetBool( string key, bool value )
         {
             _data[key] = value;
+#if UNITY_EDITOR
+            Flush();
+#endif
         }
 
         public int GetInt( string key, int defaultValue = 0 )
         {
-            object result;
+            object result = null;
             if( !_data.TryGetValue( key, out result ) )
                 return defaultValue;
             return ( int )result;
@@ -52,6 +45,9 @@ namespace Fiftytwo
         public void SetInt( string key, int value )
         {
             _data[key] = value;
+#if UNITY_EDITOR
+            Flush();
+#endif
         }
 
         public float GetFloat( string key, float defaultValue = 0.0f )
@@ -65,6 +61,9 @@ namespace Fiftytwo
         public void SetFloat( string key, float value )
         {
             _data[key] = value;
+#if UNITY_EDITOR
+            Flush();
+#endif
         }
 
         public string GetString( string key, string defaultValue = "" )
@@ -78,6 +77,9 @@ namespace Fiftytwo
         public void SetString( string key, string value )
         {
             _data[key] = value;
+#if UNITY_EDITOR
+            Flush();
+#endif
         }
 
         public bool HasKey ( string key )
@@ -88,14 +90,19 @@ namespace Fiftytwo
         public void DeleteKey ( string key )
         {
             _data.Remove( key );
+#if UNITY_EDITOR
+            Flush();
+#endif
         }
 
         public void DeleteAll()
         {
             _data.Clear();
+#if UNITY_EDITOR
+            Flush();
+#endif
         }
 
-        protected abstract void SerializeData ( Dictionary<string, object> data );
-        protected abstract Dictionary<string, object> DeserializeData ();
+        public abstract void Flush ();
     }
 }

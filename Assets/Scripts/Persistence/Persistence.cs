@@ -1,3 +1,4 @@
+//#define ENABLE_FS_PREFS_PROVIDER
 
 namespace Fiftytwo
 {
@@ -11,8 +12,12 @@ namespace Fiftytwo
 
         static Persistence ()
         {
-#if UNITY_SWITCH && !UNITY_EDITOR
+#if UNITY_EDITOR
+            Player = new PlayerPrefsProvider();
+#elif UNITY_SWITCH
             Player = new SwitchPrefsProvider();
+#elif ENABLE_FS_PREFS_PROVIDER
+            Player = new FsPrefsProvider();
 #else
             Player = new PlayerPrefsProvider();
 #endif
